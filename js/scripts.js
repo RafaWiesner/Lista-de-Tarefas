@@ -68,26 +68,35 @@ function tarefaCompleta(finishBtn, todo) {
     })
 }
 
-function editarTarefa (editBtn, todoTitulo) {
+let tarefaEmEdicao = null; // Variável para rastrear a tarefa em edição
+
+function editarTarefa(editBtn, todoTitulo) {
     editBtn.addEventListener("click", () => {
-        editForm.classList.remove("hide")
-        toDoForm.classList.add("hide")
-        toolBar.classList.add("hide")
+        editForm.classList.remove("hide");
+        toDoForm.classList.add("hide");
+        toolBar.classList.add("hide");
         inputEdit.value = todoTitulo.innerText;
-    })
-
-    btnSaveEdit.addEventListener("click", (e) => {
-        e.preventDefault();
-        todoTitulo.innerText = inputEdit.value;
-        editForm.classList.add("hide")
-    })
-
-    btnCancelEdit.addEventListener("click", (e) => {
-        e.preventDefault();
-        editForm.classList.add("hide")
-    })
-
+        tarefaEmEdicao = todoTitulo; // Define a tarefa em edição
+    });
 }
+
+btnSaveEdit.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (tarefaEmEdicao) {
+        tarefaEmEdicao.innerText = inputEdit.value; // Atualiza apenas a tarefa em edição
+        tarefaEmEdicao = null; // Reseta a variável após salvar
+    }
+    editForm.classList.add("hide");
+    toDoForm.classList.remove("hide");
+});
+
+btnCancelEdit.addEventListener("click", (e) => {
+    e.preventDefault();
+    tarefaEmEdicao = null; // Reseta a variável caso o usuário cancele
+    editForm.classList.add("hide");
+    toDoForm.classList.remove("hide");
+});
+
 
 
 
